@@ -1,0 +1,62 @@
+<MyLayout>:
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+        canvas.before:
+            Color:
+                rgba: (1, 0, 0, 1)  # red
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        ScrollView:
+            size_hint: (1, 1)
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height  # 使BoxLayout的高度適應其內部元素的高度
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 1)  # white background for the ScrollView content area
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    size_hint_y: None
+                    height: root.height * 0.25  # 設定絕對高度為父容器高度的 25%
+                    canvas.before:
+                        Color:
+                            rgba: (0, 1, 0, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        text: 'Box 1'
+                    Button:
+                        text: 'Button'
+                BoxLayout:
+                    size_hint_y: None
+                    height: root.height * 0.25  # 設定絕對高度為父容器高度的 25%
+                    canvas.before:
+                        Color:
+                            rgba: (0, 1, 0, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        text: 'Box 2'
+                    Button:
+                        text: 'Button'
+                BoxLayout:
+                    size_hint_y: None
+                    height: root.height * 0.25  # 設定絕對高度為父容器高度的 25%
+                    canvas.before:
+                        Color:
+                            rgba: (0, 1, 0, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        text: 'Box 2'
+                    Button:
+                        text: 'Button'

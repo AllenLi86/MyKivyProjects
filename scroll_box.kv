@@ -1,0 +1,53 @@
+<MyCardLayout@MDBoxLayout>:
+    size_hint_y: None
+    height: 100
+    canvas.before:
+        Color:
+            rgba: 1, 0, 0, 1  # Red color background
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    MDFlatButton:
+        orientation: 'vertical'  # Change to vertical
+        size_hint: 1, 1
+        on_press: app.on_label_press()
+        MDLabel:
+            text: root.text
+            font_size: 32
+
+MDBoxLayout:
+    orientation: 'vertical'
+    size: root.width, root.height
+
+    # Scrollable area
+    MDBoxLayout:
+        ScrollView:
+            MDBoxLayout:
+                id: word_card_area
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: '20dp'
+                padding: '20dp'
+
+                # word boxes
+                MyCardLayout:
+                    text: "cool!"
+                MyCardLayout:
+                    text: "cool 2!"
+                MyCardLayout:
+                    text: "cool 3!"
+                MyCardLayout:
+                    text: "cool 4!"
+                MyCardLayout:
+                    text: "cool 5!"
+    
+    MDBoxLayout:
+        size_hint_y: .2
+        Button:
+            text: 'Add Card'
+            on_release: app.add_card()
+        Button:
+            text: 'Cards'
+            # on_press: app.add_card()
+            on_release: app.show_dialog()

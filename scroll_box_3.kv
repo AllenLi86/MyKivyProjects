@@ -1,0 +1,113 @@
+<MyCardLayout@MDBoxLayout>:
+    size_hint_y: None
+    height: 100
+    canvas.before:
+        Color:
+            rgba: 1, 0, 0, 1  # Red color background
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    MDFlatButton:
+        orientation: 'vertical'  # Change to vertical
+        size_hint: 1, 1
+        on_press: app.on_label_press()
+        MDLabel:
+            text: root.text
+            font_size: 32
+
+MDFloatLayout:
+    orientation: 'vertical'
+    size: root.width, root.height
+    ScrollView:
+        MDBoxLayout:
+            id: box_layout
+            orientation: 'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: '20dp'
+            padding: '20dp'
+            
+
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                canvas.before:
+                    Color:
+                        rgba: 1, 0, 0, 1  # Red color background
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                MDFlatButton:
+                    orientation: 'vertical'  # Change to vertical
+                    size_hint: 1, 1
+                    on_press: app.on_label_press()
+                    MDLabel:
+                        text: 'Box 1'
+                        font_size: 32
+
+            MyCardLayout:
+                text: "cool!"
+
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                TextInput:
+                    text: 'Box 2'
+                MDLabel:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                TextInput:
+                    text: 'Box 3'
+                MDLabel:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                MDLabel:
+                    text: 'Box 4'
+                Button:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                MDLabel:
+                    text: 'Box 5'
+                Button:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                MDLabel:
+                    text: 'Box 6'
+                Button:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                MDLabel:
+                    text: 'Box 7'
+                Button:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                MDLabel:
+                    text: 'Box 8'
+                Button:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                MDLabel:
+                    text: 'Box 9'
+                Button:
+                    text: 'Button'
+            MDBoxLayout:
+                size_hint_y: None
+                height: 100
+                MDLabel:
+                    text: 'Box 10'
+                Button:
+                    text: 'Button'

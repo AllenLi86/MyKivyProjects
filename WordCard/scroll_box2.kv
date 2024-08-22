@@ -1,7 +1,7 @@
 <MyCardLayout@MDBoxLayout>:
     id: card_layout
     size_hint_y: None
-    height: 100
+    height: 75
     canvas.before:
         Color:
             rgba: 1, 0, 0, 1  # Red color background
@@ -12,9 +12,42 @@
         orientation: 'vertical'  # Change to vertical
         size_hint: 1, 1
         on_press: app.on_wordcard_label_press(root.card_id)  # Pass ID to function
+        padding: '20dp'
         MDLabel:
             text: root.text
             font_size: 32
+
+<OrgCardLayout@MDBoxLayout>:
+    id: card_layout
+    size_hint_y: None
+    height: 75
+    canvas.before:
+        Color:
+            rgba: 1, 0, 0, 1  # Red color background
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    MDFlatButton:
+        # orientation: 'vertical'  # Change to vertical
+        size_hint: 1, 1
+        on_press: app.show_addWordCard_dialog()
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 1
+            spacing: "12dp"  # 圖標與文字之間的間距
+            padding: "12dp"
+            MDIcon:
+                icon: "plus-circle"  # 圖標名稱，可以更改成你想要的圖標
+                size_hint: None, None
+                size: "36dp", "36dp"  # 調整圖標大小
+                font_size: "36dp"  # 調整圖標的字體大小，使圖標變大
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # 圖標顏色（可選）
+                pos_hint: {'x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                text: root.text
+                font_size: 32
+                # halign: 'left'  # 文字左對齊
 
 <Content>
     orientation: "vertical"
@@ -38,6 +71,7 @@
         multiline: True
         max_height: "200dp"
 
+# ====== Main app layout ======
 MDBoxLayout:
     orientation: 'vertical'
     size: root.width, root.height
@@ -54,16 +88,10 @@ MDBoxLayout:
                 padding: '20dp'
 
                 # word boxes
-                MyCardLayout:
-                    text: "cool!"
+                OrgCardLayout:
+                    text: "add new word"
                 # MyCardLayout:
                 #     text: "cool 2!"
-                # MyCardLayout:
-                #     text: "cool 3!"
-                # MyCardLayout:
-                #     text: "cool 4!"
-                # MyCardLayout:
-                #     text: "cool 5!"
     
     MDBoxLayout:
         size_hint_y: .16
@@ -74,4 +102,4 @@ MDBoxLayout:
         Button:
             text: 'Cards'
             # on_press: app.add_card()
-            on_release: app.show_dialog()
+            # on_release: app.show_dialog()

@@ -7,6 +7,7 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 # from kivy.uix.behaviors import ButtonBehavior
 from kivymd.uix.label import MDLabel
+# from kivy.uix.label import Label
 # from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex
 import uuid
@@ -58,15 +59,31 @@ class MainApp(MDApp):
             content_cls=self.create_card_detail_content(card_data, custom_title),
             buttons=[
                 MDFlatButton(
+                    text="Last",
+                    theme_text_color="Custom",
+                    text_color=self.theme_cls.primary_color,
+                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
+                    on_release=lambda btn: self.show_lastWordCard_dialog(card_id)
+                ),
+                MDFlatButton(
+                    text="NEXT",
+                    theme_text_color="Custom",
+                    text_color=self.theme_cls.primary_color,
+                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
+                    on_release=lambda btn: self.show_nextWordCard_dialog(card_id)
+                ),
+                MDFlatButton(
                     text="Edit",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    on_release=lambda x: self.show_editWordCard_dialog(card_id)
+                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
+                    on_release=lambda btn: self.show_editWordCard_dialog(card_id)
                 ),
                 MDFlatButton(
                     text="CLOSE",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
+                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
                     on_release=self.close_dialog
                 ),
             ],
@@ -78,13 +95,24 @@ class MainApp(MDApp):
         # Create content for the dialog based on card data
         content = MDBoxLayout(orientation='vertical', padding="12dp", spacing="12dp", size_hint_y=None, height="250dp")
         content.add_widget(custom_title)  # Add the custom title
-        content.add_widget(MDLabel(text=f"Meaning: \n{card_data.get('meaning', '')}"))
-        content.add_widget(MDLabel(text=f"Sentence: \n{card_data.get('sentence', '')}"))
+        content.add_widget(MDLabel(
+            text=f"{card_data.get('meaning', '')}", 
+            font_size='48dp',
+            theme_text_color="Custom",  # 自定義顏色
+            text_color=(137/255, 196/255, 244/255, 1)
+            ))
+        content.add_widget(MDLabel(
+            text=f"{card_data.get('sentence', '')}", 
+            font_size='36dp',
+            theme_text_color="Custom",  # 自定義顏色
+            text_color=(1, 1, 1, 1)
+            ))
         return content
 
     def close_dialog(self, *args):
         if self.dialog:
             self.dialog.dismiss()
+            self.dialog = None
                 
     def show_addWordCard_dialog(self):
         # if not self.dialog:
@@ -100,7 +128,7 @@ class MainApp(MDApp):
                     on_release=self.close_dialog
                 ),
                 MDFlatButton(
-                    text="OK",
+                    text="ADD",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
                     on_release=self.add_card
@@ -145,6 +173,10 @@ class MainApp(MDApp):
         print(f"Card Data Recorded: {self.card_data}")
         
     def show_editWordCard_dialog(self, card_id):
+        # Close any open dialogs first
+        if hasattr(self, 'dialog') and self.dialog:
+            self.dialog.dismiss()
+            
         # 取得要編輯的字卡資料
         card_data = self.card_data.get(card_id, {})
         
@@ -174,7 +206,7 @@ class MainApp(MDApp):
                     text="SAVE",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    on_release=lambda x: self.save_edited_card(card_id)
+                    on_release=lambda btn: self.save_edited_card(card_id)
                 ),
             ],
         )
@@ -184,12 +216,7 @@ class MainApp(MDApp):
         # 取得編輯後的輸入資料
         WMS_data = self.get_text_inputs()
         
-        # 更新字卡資料
-        self.card_data[card_id] = {
-            "word": WMS_data["word"],
-            "meaning": WMS_data["meaning"],
-            "sentence": WMS_data["sentence"]
-        }
+        self.card_data[card_id] = WMS_data
         
         # 更新對應字卡上的文字
         for card in self.root.ids.word_card_area.children:
@@ -198,8 +225,61 @@ class MainApp(MDApp):
                 break
 
         print(f"Card Data Updated: {self.card_data}")
+        
+        # Close the dialog and refresh the display dialog
+        self.close_dialog()
+        # After closing, reset dialog and re-open the updated card
+        self.dialog = None
+        self.on_wordcard_label_press(card_id)  # Refresh the dialog to show updated data
     
+    def show_lastWordCard_dialog(self, current_card_id):
+        # Close any open dialogs first
+        if hasattr(self, 'dialog') and self.dialog:
+            self.dialog.dismiss()
+        
+        # Get all card IDs
+        all_card_ids = list(self.card_data.keys())
+        
+        if not all_card_ids:
+            print("No cards available.")
+            return
+        
+        # Find the index of the current card
+        current_index = all_card_ids.index(current_card_id) if current_card_id in all_card_ids else -1
+        
+        # Determine the ID of the previous card
+        if current_index > 0:
+            last_card_id = all_card_ids[current_index - 1]
+        else:
+            last_card_id = all_card_ids[-1]
+            print("No previous card. Show last card")
+            
+        self.on_wordcard_label_press(last_card_id)
 
+    def show_nextWordCard_dialog(self, current_card_id):
+        # Close any open dialogs first
+        if hasattr(self, 'dialog') and self.dialog:
+            self.dialog.dismiss()
+        
+        # Get all card IDs
+        all_card_ids = list(self.card_data.keys())
+        
+        if not all_card_ids:
+            print("No cards available.")
+            return
+        
+        # Find the index of the current card
+        current_index = all_card_ids.index(current_card_id) if current_card_id in all_card_ids else -1
+        
+        # Determine the ID of the next card
+        if current_index < len(all_card_ids) - 1:
+            next_card_id = all_card_ids[current_index + 1]
+        else:
+            next_card_id = all_card_ids[0]
+            print("No next card. Show first card")
+
+        self.on_wordcard_label_press(next_card_id)
+        
 if __name__ == '__main__':
     MainApp().run()
     

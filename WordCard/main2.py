@@ -1,6 +1,7 @@
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivymd.app import MDApp
+from kivy.core.text import LabelBase
 from kivy.properties import StringProperty, ObjectProperty
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.dialog import MDDialog
@@ -29,6 +30,8 @@ class OrgCardLayout(MDBoxLayout):
 
 class MainApp(MDApp):
     def build(self):
+        LabelBase.register(name="MSJH", fn_regular="./fonts/MSJH.TTC")
+        
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
         # self.theme_cls.accent_palette = "Red"
@@ -48,8 +51,10 @@ class MainApp(MDApp):
             halign="center",
             size_hint_y=None,
             height="80dp",
+            # size_hint=(0.9, 0.7),
             theme_text_color="Custom",
-            text_color=self.theme_cls.primary_color
+            text_color=self.theme_cls.primary_color,
+            font_name="MSJH"
         )
         
         # Create and open dialog to display card data
@@ -57,33 +62,35 @@ class MainApp(MDApp):
             # title="",  # Leave the title empty to use custom title
             type="custom",
             content_cls=self.create_card_detail_content(card_data, custom_title),
+            size_hint_x=0.9,
+            size_hint_y=None,
             buttons=[
                 MDFlatButton(
                     text="Last",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
+                    size_hint_x=0.25,  # Set size hint to 1/5 of the dialog width
                     on_release=lambda btn: self.show_lastWordCard_dialog(card_id)
                 ),
                 MDFlatButton(
                     text="NEXT",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
+                    size_hint_x=0.25,  # Set size hint to 1/5 of the dialog width
                     on_release=lambda btn: self.show_nextWordCard_dialog(card_id)
                 ),
                 MDFlatButton(
                     text="Edit",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
+                    size_hint_x=0.25,  # Set size hint to 1/5 of the dialog width
                     on_release=lambda btn: self.show_editWordCard_dialog(card_id)
                 ),
                 MDFlatButton(
                     text="CLOSE",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    size_hint_x=0.25,  # Set size hint to 1/4 of the dialog width
+                    size_hint_x=0.25,  # Set size hint to 1/5 of the dialog width
                     on_release=self.close_dialog
                 ),
             ],

@@ -16,6 +16,7 @@
         MDLabel:
             text: root.text
             font_size: 32
+            font_name: "MSJH"
 
 <OrgCardLayout@MDBoxLayout>:
     id: card_layout
@@ -47,6 +48,7 @@
             MDLabel:
                 text: root.text
                 font_size: 32
+                font_name: "MSJH"
                 # halign: 'left'  # 文字左對齊
 
 <Content>
@@ -58,18 +60,21 @@
     MDTextField:
         id: word_input
         hint_text: "Word"
+        font_name: "MSJH"
 
     MDTextField:
         id: meaning_input
         hint_text: "Meaning"
         multiline: True
         max_height: "150dp"
+        font_name: "MSJH"
 
     MDTextField:
         id: sentence_input
         hint_text: "Sentence"
         multiline: True
         max_height: "200dp"
+        font_name: "MSJH"
 
 # ====== Main app layout ======
 MDBoxLayout:

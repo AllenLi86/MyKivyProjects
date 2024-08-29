@@ -10,8 +10,9 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.label import MDLabel
 # from kivy.uix.label import Label
 # from kivymd.uix.textfield import MDTextField
-from kivy.utils import get_color_from_hex
+# from kivy.utils import get_color_from_hex
 import uuid
+import json
 
 
 # Set window size
@@ -105,12 +106,14 @@ class MainApp(MDApp):
         content.add_widget(MDLabel(
             text=f"{card_data.get('meaning', '')}", 
             font_size='48dp',
+            font_name="MSJH",
             theme_text_color="Custom",  # 自定義顏色
             text_color=(137/255, 196/255, 244/255, 1)
             ))
         content.add_widget(MDLabel(
             text=f"{card_data.get('sentence', '')}", 
             font_size='36dp',
+            font_name="MSJH",
             theme_text_color="Custom",  # 自定義顏色
             text_color=(1, 1, 1, 1)
             ))
